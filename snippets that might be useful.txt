@@ -1,0 +1,5 @@
+numbers_ = [int(word) for word in a_string.split() if word.isdigit()]
+
+def countif(condition, seq):
+    """Returns the amount of items in seq that return true from condition"""
+    return sum(1 for item in seq if condition(item))

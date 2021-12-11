@@ -1,0 +1,26 @@
+for i in range(0, 10):
+  # do something
+
+i = 0
+while(i < 10):
+  # do something
+  i = i + 1
+
+And the only other tip I'd give you is: since you don't need to save what the increases are, you could do this for the second half:
+
+increasedCount = 0
+# for each average (skipping the first one)...
+for k in range(1, len(depthAvgs)):
+  # if it's greater than the one before it, note that
+  if depthAvgs[k] > depthAvgs[k-1]:
+    increasedCount += 1
+(x += 1 is the same as x = x + 1)
+
+
+
+list = []
+with open("filename") as f:
+    list = [line for line in f.readlines()]
+
+Lego  21 h 25
+the "with X as Y:" syntax is called a context manager and it's a nicer way of saying "when i'm done with this block, close/free Y", where Y can be a file or socket or other resource
