@@ -24,3 +24,9 @@ with open("filename") as f:
 
 Lego  21 h 25
 the "with X as Y:" syntax is called a context manager and it's a nicer way of saying "when i'm done with this block, close/free Y", where Y can be a file or socket or other resource
+
+
+
+list comprehension
+[RESULT for ELEMENT(aka variable) in LIST]
+(result is usually a function of the element (e.g. f(x) where f is a defined function and x is the element, x*3+17 where the function is just math, etc)

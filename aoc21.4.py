@@ -1,6 +1,11 @@
 input = []
-with open("aoc21.sample4.boards.txt") as f:
+with open("aoc21.input4.boards.txt") as f:
   input = [line.strip() for line in f.readlines()]
+draw1 = []
+with open("aoc21.input4.draw.txt") as g:
+  draw1 = g.readlines()[0]
+draw2 = draw1.split(',')
+draw = [int(t) for t in draw2]
 
 # make each board into a list of (in this case) 5 rows of 5 integers
 # make a list of board positions that are win states
@@ -14,8 +19,8 @@ with open("aoc21.sample4.boards.txt") as f:
 # define some stuff
 boards = []
 n = int((len(input) + 1) / 6) # the number of bingo boards, since there's no empty line at the end of the last board
-q = 5 # number of rows/columns of a square board
 
+# make list of boards
 for z in range(0,n):
   boards.append([])
   a = z * 6
@@ -23,13 +28,60 @@ for z in range(0,n):
   c = a + 2
   d = a + 3
   e = a + 4
-  boards[z] = [input[a], input[b], input[c], input[d], input[e]]
+  boards[z] = [input[a].split(), input[b].split(), input[c].split(), input[d].split(), input[e].split()]
 
-[0, 1, 2, 3, 4]
-[5, 6, 7, 8, 9]
-[10, 11, 12, 13, 14]
-[15, 16, 17, 18, 19]
-[20, 21, 22, 23, 24]
-[0, 5, 10, 15, 20]
-[1, 6, ]
+# make boards into lists of integers instead of strings
+for board in range(len(boards)):
+  for row in range((len(boards[board]))):
+    for column in range(len(boards[board][row])):
+      boards[board][row][column] = int(boards[board][row][column])
+
+def wincheck(board, draw):
+  # checks each row and column of a given board to see whether all elements of that row/column have been drawn
+  win = False # assumes a row or column will not win
+
+  for row in board:
+    if sum(1 for x in row if x in draw) == 5:
+      win = True # shows that it won
+  
+  for colIx in range(len(board[0])):
+    col = [row[colIx] for row in board]
+    if sum(1 for w in col if w in draw) == 5:
+      win = True # shows that it won
+
+  return win # returns true/false with regards to winning
+
+# print(wincheck(boards[0],draw[0:5]))
+
+# find which board wins first and on what draw it wins
+m = len(boards[0]) # number of rows/columns of a square board
+q = len(draw) # number of turns taken in the game
+winner = None # if no one wins, then the returned winner number is -1
+winturn = None # if no one wins, then the returned win turn is -3
+
+for turn in range(m,q):
+  for boardIx in range(0,n):
+    if wincheck(boards[boardIx], draw[0:turn]):
+      winner = boardIx
+      winturn = turn
+      # print("inner winner:", winner)
+      # print("inner winturn:", winturn)
+      break
+  if winner != None:
+    break
+
+print("final winner:", winner)
+print("final winturn:", winturn)
+
+def scorecheck(board, draw):
+  # calculates the score of a board at the end of a game
+  # "draw" as passed into this function should be limited to the numbers actually drawn during a game
+  score = 0
+
+  for row in board:
+    score += sum(x for x in row if x not in draw)
+
+  return score * draw[-1] # return the score of the board
+
+print(scorecheck(boards[winner], draw[0:winturn]))
 
