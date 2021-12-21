@@ -85,3 +85,19 @@ def scorecheck(board, draw):
 
 print(scorecheck(boards[winner], draw[0:winturn]))
 
+
+
+
+### part 2
+
+# when a board wins, append it to a new list
+# when the new list is the same length as the original list, scorecheck newlist[-1]
+
+# define the new list
+wonboards = []
+
+# when a new board wins, append it to wonboards
+for turn in range(m,q):
+  for boardIx in range(0,n):
+    if wincheck(boards[boardIx], draw[0:turn]):
+      wonboards.append(boards[boardIx])
